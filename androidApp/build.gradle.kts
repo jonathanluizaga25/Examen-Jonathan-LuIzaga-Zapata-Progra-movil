@@ -1,4 +1,12 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
+
+val localProperties = Properties().apply {
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        localPropertiesFile.inputStream().use(::load)
+    }
+}
 
 plugins {
     alias(libs.plugins.androidApplication)
@@ -29,6 +37,11 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+        buildConfigField(
+            "String",
+            "TMDB_API_KEY",
+            "\"${localProperties.getProperty("tmdb.api.key", "")}\""
+        )
     }
     packaging {
         resources {
@@ -50,5 +63,6 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }

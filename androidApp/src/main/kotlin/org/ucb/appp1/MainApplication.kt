@@ -6,6 +6,6 @@ import org.ucb.appp1.di.initKoinAndroid
 class MainApplication: Application() {
     override fun onCreate() {
         super.onCreate()
-        initKoinAndroid(this)
+        initKoinAndroid(this, BuildConfig.TMDB_API_KEY)
     }
 }
